@@ -29,9 +29,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 #config
 
 path = './data/'
-file = path + 'word_assocation_ref.json'
-with open(file, 'r') as fp:
-    word_association_ref = json.load(fp)
+file_ref = path + 'word_assocation_ref.json'
+with open(file_ref, 'r') as file_conn:
+    word_association_ref = json.load(file_conn)
 
 nlp = spacy.load("en_core_web_lg")
 doc = nlp("This is a sentence.")
@@ -54,18 +54,19 @@ def general_logistic(cs, math):
 def main(args):
 
     #load file
-    FILE_PATH_IN = args.input_dir
-    FILE_PATH_OUT = args.output_dir
+    FILE_PATH_IN = os.path.abspath( args.input_dir )
+    FILE_PATH_OUT = os.path.abspath( args.output_dir )
 
-    os.chdir(FILE_PATH_IN)
-    files = os.listdir()
+    files = os.listdir(FILE_PATH_IN)
+    files.remove('.DS_Store')
 
 
     for file in files:
 
-        FILE_IN = os.path.abspath( file)
-        with open(FILE_IN, 'r') as file:
-            lines = file.readlines()
+        FILE = os.path.basename(file)
+        FILE_IN = os.path.join(FILE_PATH_IN, FILE)
+        with open(FILE_IN, 'r') as file_conn:
+            lines = file_conn.readlines()
 
         metadata = lines[1:9]
 
@@ -108,11 +109,9 @@ def main(args):
 
         #export file
 
-        FILE_OUT = "/Users/jason.beach/Desktop/Projects/Hugo_Site-site_support_prj/hugo-hugo2lunr/test/output/output.md"
-        print(FILE_OUT)
-
-        with open(FILE_OUT, 'w') as file:
-            file.write(combined)
+        FILE_OUT = os.path.join( FILE_PATH_OUT, FILE )
+        with open(FILE_OUT, 'w') as file_conn:
+            file_conn.write(combined)
 
 
 
