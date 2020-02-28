@@ -1,0 +1,1 @@
+from .hugo2lunr import main

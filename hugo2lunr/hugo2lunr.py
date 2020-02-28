@@ -27,7 +27,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 #config
-
 path = './data/'
 file_ref = path + 'word_assocation_ref.json'
 with open(file_ref, 'r') as file_conn:
@@ -61,7 +60,7 @@ def main(args):
     files.remove('.DS_Store')
 
 
-    for file in files:
+    for idx, file in enumerate(files):
 
         FILE = os.path.basename(file)
         FILE_IN = os.path.join(FILE_PATH_IN, FILE)
@@ -112,9 +111,7 @@ def main(args):
         FILE_OUT = os.path.join( FILE_PATH_OUT, FILE )
         with open(FILE_OUT, 'w') as file_conn:
             file_conn.write(combined)
-
-
-
+        print('processed file: ', idx, FILE_OUT)
 
 
 
