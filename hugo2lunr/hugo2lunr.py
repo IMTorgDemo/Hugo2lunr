@@ -27,8 +27,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 #config
-path = './data/'
-file_ref = path + 'word_assocation_ref.json'
+site_dir = os.path.dirname(os.path.abspath(__file__))
+file_ref = os.path.join(site_dir,'data/word_association_ref.json')
 with open(file_ref, 'r') as file_conn:
     word_association_ref = json.load(file_conn)
 

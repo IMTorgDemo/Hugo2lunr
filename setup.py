@@ -19,7 +19,10 @@ setup(
     author_email="information@mgmt-tech.org",
     url="",
     license=license,
-    package_data={'': ['data/word_assocation_ref.json']},
+
+    data_files=[('',['hugo2lunr/data/word_association_ref.json'])],
+    package_data={'': ['hugo2lunr/data/word_association_ref.json']},
+
     scripts=['bin/hugo2lunr'],
     include_package_data=True,
     zip_safe=False

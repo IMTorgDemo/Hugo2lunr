@@ -12,31 +12,46 @@ Hugo2lunr makes the following transormations:
 For more information concerning the implementation of nlp tools for visual-referencing, see the [blog post](?).
 
 
+
 # Usage
 
-Using script
+Direct use of script.
 
 ```
 pipenv install
 pipenv shell
-python hugo2lunr/hugo2lunr.py  ./test/input ./test/output
+python3 hugo2lunr/hugo2lunr.py  ./test/input ./test/output
 ```
 
-Installing as commandline utility
+Build and install with egg.
 
 ```
+#(MANIFEST.in)include hugo2lunr/data/word_association_ref.json
+#(setup.py)package_data={'': ['hugo2lunr/data/word_association_ref.json']},
+python3 setup.py install --force
+pip3 install .
+hugo2lunr ./test/input ./test/output    #input_dir and output_dir
+```
+
+Building a wheel (bdist_wheel) and installing as commandline utility.  If you are building a wheel (bdist_wheel), then include_package_data and MANIFEST.in are ignored and you must use package_data and data_files.
+
+```
+#(setup.py)data_files=[('',['hugo2lunr/data/word_association_ref.json'])],
 pip3 install spacy
 python3 -m spacy download en_core_web_lg
 
 pipenv install
 pipenv shell
+rm -rf build *.egg-info
 pip wheel -w dist --verbose .
 exit
 
-pip3 install -e .
+#pip3 install -e .    #<<<FAIL
+pip3 install . --user
 hugo2lunr  -h
-hugo2lunr -i ./test/input -o ./test/output
+hugo2lunr ./test/input ./test/output    #input_dir and output_dir
 ```
+
 
 
 # Test and Develop

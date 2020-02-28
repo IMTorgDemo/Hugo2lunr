@@ -1,0 +1,2 @@
+include LICENSE
+include hugo2lunr/data/word_association_ref.json
