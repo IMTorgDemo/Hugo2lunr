@@ -28,6 +28,7 @@ Build and install with egg.
 ```
 #(MANIFEST.in)include hugo2lunr/data/word_association_ref.json
 #(setup.py)package_data={'': ['hugo2lunr/data/word_association_ref.json']},
+rm -rf build *.egg-info
 python3 setup.py install --force
 pip3 install .
 hugo2lunr ./test/input ./test/output    #input_dir and output_dir
@@ -42,7 +43,7 @@ python3 -m spacy download en_core_web_lg
 
 pipenv install
 pipenv shell
-rm -rf build *.egg-info
+rm -rf ./dist/*.whl
 pip wheel -w dist --verbose .
 exit
 

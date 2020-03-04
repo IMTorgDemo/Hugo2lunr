@@ -62,7 +62,7 @@ def main(args):
 
     for idx, file in enumerate(files):
 
-        FILE = os.path.basename(file)
+        FILE = str(os.path.basename(file))
         FILE_IN = os.path.join(FILE_PATH_IN, FILE)
         with open(FILE_IN, 'r') as file_conn:
             lines = file_conn.readlines()
@@ -71,14 +71,20 @@ def main(args):
 
         content = '  '.join(lines[9:])
         content = content.replace("\n","")
-        pattern = re.compile(r'([^\s\w]|_)+')
-        content = pattern.sub('', content)
+        pattern = re.compile(r"[^a-zA-Z0-9]+") 
+        content = pattern.sub(' ', content)
         content = ' '.join(content.split())
 
 
         #add rankings
-        tfidf = TfidfVectorizer(min_df=3, analyzer='word', stop_words = 'english', sublinear_tf=True)
-        tfidf.fit(content.split(' '))
+        try:
+            tfidf = TfidfVectorizer(min_df=3, analyzer='word', stop_words = 'english', sublinear_tf=True)
+            tfidf.fit(content.split(' '))
+        except Exception as ex:
+            print( ex )
+            tfidf = TfidfVectorizer(min_df=0, analyzer='word', stop_words = 'english', sublinear_tf=True)
+            tfidf.fit(content.split(' '))
+
         feature_names = tfidf.get_feature_names()
 
         def get_ifidf_for_words(text):
@@ -101,13 +107,11 @@ def main(args):
 
 
         #combine file components
-
         metadata.insert(4, f"location = [{xPt}, {yPt}]\n")
         combined = ''.join(metadata) + content
 
 
         #export file
-
         FILE_OUT = os.path.join( FILE_PATH_OUT, FILE )
         with open(FILE_OUT, 'w') as file_conn:
             file_conn.write(combined)
