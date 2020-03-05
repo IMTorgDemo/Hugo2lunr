@@ -15,6 +15,7 @@ import sys
 import re, string
 import argparse
 import json
+from pathlib import Path
 
 import numpy as np
 import spacy
@@ -53,11 +54,11 @@ def general_logistic(cs, math):
 def main(args):
 
     #load file
-    FILE_PATH_IN = os.path.abspath( args.input_dir )
-    FILE_PATH_OUT = os.path.abspath( args.output_dir )
+    FILE_PATH_IN = os.path.join( os.path.abspath( args.input_dir ), 'posts')
+    FILE_PATH_OUT = os.path.join( os.path.abspath( args.output_dir ), 'posts')
 
     files = os.listdir(FILE_PATH_IN)
-    files.remove('.DS_Store')
+    if '.DS_Store' in files: files.remove('.DS_Store')
 
 
     for idx, file in enumerate(files):
@@ -112,6 +113,7 @@ def main(args):
 
 
         #export file
+        Path(FILE_PATH_OUT).mkdir(parents=True, exist_ok=True)
         FILE_OUT = os.path.join( FILE_PATH_OUT, FILE )
         with open(FILE_OUT, 'w') as file_conn:
             file_conn.write(combined)

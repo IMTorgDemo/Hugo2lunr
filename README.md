@@ -15,7 +15,7 @@ For more information concerning the implementation of nlp tools for visual-refer
 
 # Usage
 
-Direct use of script.
+Direct use of script.  The `input_dir` must contain `posts/posts.md`, so that the `output_dir` can include creation of the same directory tree.  This ensures the `hugo-lunr` extracts the correct urls when indexing.
 
 ```
 pipenv install
@@ -47,6 +47,7 @@ rm -rf ./dist/*.whl
 pip wheel -w dist --verbose .
 exit
 
+pip3 uninstall hugo2lunr
 #pip3 install -e .    #<<<FAIL
 pip3 install . --user
 hugo2lunr  -h
